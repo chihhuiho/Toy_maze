@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 import tensorflow as tf
 
 
@@ -160,9 +159,11 @@ class DeepQNetwork:
         q_target = q_state.copy()
         for i in range(self.batch_size):
             if terminal[i]:
-                q_target[i, action_index] = reward
+                terminal_reward = np.zeros([1,self.n_actions])
+                terminal_reward[0,action_index[i]] = reward[i]
+                q_target[i, :] = terminal_reward
             else:
-                q_target[i, action_index] = reward + self.gamma * np.max(q_next_state, axis=1)
+                q_target[i, action_index[i]] = reward[i] + self.gamma * np.max(q_next_state[i,:], axis=0)
                 
         # train Q network to minimize the difference Q target and estimated Q value 
         _, self.cost = self.sess.run([self._train_op, self.loss],

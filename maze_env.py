@@ -3,7 +3,6 @@ Reinforcement learning to walk maze
 Candy reward +1
 Bomb  reward -1
 
-The RL is in RL_brain.py.
 """
 import numpy as np
 import time
@@ -26,7 +25,7 @@ class Maze():
         # 2D map use one-hot encoding as a feature 
         self.n_features = MAZE_H*MAZE_W
         self.candy_loc = 9
-        self.bomb_loc = 6
+        self.bomb_loc = 3
         self.location = np.zeros([1, MAZE_H*MAZE_W])
         self.restart()
 
@@ -40,7 +39,7 @@ class Maze():
         self.location[0,int(floor(np.random.uniform(0, MAZE_H*MAZE_H)))] = 1
         state = np.where(self.location == 1)
         state = int(state[1])
-        if  state == 9 or state == 6:
+        if  state == self.candy_loc or state == self.bomb_loc:
             self.restart()
         
 
@@ -87,10 +86,10 @@ class Maze():
         # if get candy, reward >0
         # if get bomb or bump to wall, reward < 0
         
-        if state == 9:
+        if state == self.candy_loc:
             reward = 1
             terminal = 1
-        elif state == 6:
+        elif state == self.bomb_loc:
             reward = -1
             terminal = 1
         else:

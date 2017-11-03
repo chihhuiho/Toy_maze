@@ -5,7 +5,7 @@ import copy
 import numpy as np
 
 def run_maze(agent):
-    for episode in range(5000):
+    for episode in range(20000):
         print("Episode=" + str(episode))
         step = 0
         agent.restart()

@@ -33,16 +33,16 @@ class Maze():
     # restart the starting point
     def restart(self):    
         self.location = np.zeros([1, MAZE_H*MAZE_W])
-        self.location[0,0] = 1
+        #self.location[0,0] = 1
         
         # Random initialize the starting point
-        '''
+        
         self.location[0,int(floor(np.random.uniform(0, MAZE_H*MAZE_H)))] = 1
         state = np.where(self.location == 1)
         state = int(state[1])
-        if  state == 9:
-            self.reset()
-        '''
+        if  state == 9 or state == 6:
+            self.restart()
+        
 
     # move to next location given the action
     def move(self, action):
@@ -89,6 +89,9 @@ class Maze():
         
         if state == 9:
             reward = 1
+            terminal = 1
+        elif state == 6:
+            reward = -1
             terminal = 1
         else:
             reward = 0
